@@ -38,7 +38,7 @@ jobs:
 
       - run: npm ci --legacy-peer-deps
 
-      - run: mv temprepo/* apps/shop
+      - run: mv temprepo apps/shop
       - run: cd apps/shop
       #- run: npm ci --legacy-peer-deps
       - run: cd ..
