@@ -38,6 +38,8 @@ jobs:
           fetch-depth: 0
           clean: false
 
+      - run: pwd
+      - run: ls -la
       - run: cd ../..
       - run: ls -la
       
