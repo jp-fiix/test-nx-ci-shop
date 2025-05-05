@@ -35,12 +35,13 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          
+
       - run: npm ci --legacy-peer-deps
 
       - run: mv temprepo/* apps/shop
       - run: cd apps/shop
-      - run: npm ci --legacy-peer-deps
+      #- run: npm ci --legacy-peer-deps
+      - run: cd ..
 
       - name: Configure AWS credentials
         id: configure-aws-credentials
