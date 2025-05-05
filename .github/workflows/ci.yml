@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  id-token: write
+  actions: read
+  contents: read
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Cache node_modules
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - run: mkdir temprepo
+      - run: cd temprepo
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - run: cd ..
+
+      - name: Check out core
+        uses: actions/checkout@main
+        with:
+          repository: jp-fiix/test-nx-ci
+
+      - run: npm ci --legacy-peer-deps
+
+      - run: mv temprepo/* apps/shop
+      - run: cd apps/shop
+      - run: npm ci --legacy-peer-deps
+
+      - name: Configure AWS credentials
+        id: configure-aws-credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          mask-aws-account-id: "no"
+
+      - run: npx nx build shop --no-cloud
+
+      - run: aws s3 sync dist/apps/shop s3://test-nx-cmms/shop
