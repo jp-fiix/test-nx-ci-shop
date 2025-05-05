@@ -29,21 +29,19 @@ jobs:
 
       - run: npm ci --legacy-peer-deps
 
-      - run: cd apps
-      - run: mkdir shop
-      - run: cd shop
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          clean: false
+          path: apps/shop
 
-      - run: pwd
-      - run: ls -la
-      - run: cd ../..
-      - run: ls -la
+      - name: List shop directory
+        working-directory: ./apps/shop
+        run: |
+          pwd
+          ls -la
       
-
+      - run: pwd
+      
       - name: Configure AWS credentials
         id: configure-aws-credentials
         uses: aws-actions/configure-aws-credentials@v4
