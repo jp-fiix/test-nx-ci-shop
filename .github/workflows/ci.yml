@@ -16,12 +16,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Cache node_modules
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
       - run: mkdir temprepo
       - run: cd temprepo
 
@@ -36,6 +30,12 @@ jobs:
         with:
           repository: jp-fiix/test-nx-ci
 
+      # Cache node_modules
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          
       - run: npm ci --legacy-peer-deps
 
       - run: mv temprepo/* apps/shop
