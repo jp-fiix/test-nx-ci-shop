@@ -16,15 +16,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: mkdir temprepo
-      - run: cd temprepo
-
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - run: cd ..
-
       - name: Check out core
         uses: actions/checkout@main
         with:
@@ -38,10 +29,15 @@ jobs:
 
       - run: npm ci --legacy-peer-deps
 
-      - run: mv temprepo apps/shop
-      - run: cd apps/shop
-      #- run: npm ci --legacy-peer-deps
-      - run: cd ..
+      - run: cd apps
+      - run: mkdir shop
+      - run: cd shop
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - run: cd ../..
 
       - name: Configure AWS credentials
         id: configure-aws-credentials
