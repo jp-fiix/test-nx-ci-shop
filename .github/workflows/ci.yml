@@ -38,6 +38,8 @@ jobs:
           fetch-depth: 0
 
       - run: cd ../..
+      - run: ls -la
+      
 
       - name: Configure AWS credentials
         id: configure-aws-credentials
